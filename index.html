@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#087f5b">
+<meta name="description" content="Loyalty Tarik Tunai">
+<link rel="manifest" href="manifest.json">
+<title>Loyalty Tarik Tunai</title>
+<style>
+:root{--green:#087f5b;--green2:#0aa36f;--dark:#073b35;--gold:#f6b800;--bg:#f3f7f5;--card:#fff;--text:#17332d;--muted:#71817c;--red:#d9534f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial,sans-serif;color:var(--text)}
+.app{max-width:520px;margin:auto;min-height:100vh;background:var(--bg);padding-bottom:78px}
+header{background:linear-gradient(135deg,#075d48,#0aa36f);color:#fff;padding:22px 18px 18px;border-radius:0 0 24px 24px}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:52px;height:52px;border-radius:16px;background:#fff2;border:1px solid #ffffff55;display:grid;place-items:center;font-size:29px}
+h1{font-size:22px;margin:0}.sub{opacity:.85;font-size:12px;margin-top:3px}
+.hero{margin:16px 0;background:linear-gradient(135deg,#0a9b6b,#087653);border-radius:20px;padding:18px;color:white;box-shadow:0 10px 24px #087f5b22}
+.hero-top{display:flex;justify-content:space-between;align-items:center}.hero-title{font-size:18px;font-weight:700}.hero-icon{font-size:54px}.hero p{margin:7px 0 14px;font-size:13px}
+button{border:0;border-radius:13px;padding:12px 16px;font-weight:700;cursor:pointer}
+.primary{background:#ffc21a;color:#2d2700}.white{background:#fff;color:var(--green)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}.stat{background:var(--card);padding:14px;border-radius:16px;box-shadow:0 3px 14px #163a3110}.stat b{font-size:22px;display:block;margin-top:4px}.stat small{color:var(--muted)}
+.card{background:var(--card);margin:12px 0;padding:16px;border-radius:18px;box-shadow:0 3px 14px #163a3110}.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.muted{color:var(--muted);font-size:13px}
+input,select{width:100%;padding:13px;border:1px solid #d9e3df;border-radius:12px;font-size:15px;background:white;margin:6px 0 10px}
+label{font-size:12px;font-weight:700}.hidden{display:none}.tabs{display:flex;gap:7px;overflow:auto;margin:12px 0}.tab{background:#e7efeb;color:var(--green);padding:9px 12px;border-radius:999px;white-space:nowrap}.tab.active{background:var(--green);color:#fff}
+.customer{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid #edf1ef}.avatar{width:43px;height:43px;border-radius:50%;background:#d9f2e9;display:grid;place-items:center;font-size:22px}.customer:last-child{border-bottom:0}
+.badge{font-size:11px;padding:5px 8px;border-radius:999px;background:#e4f4ed;color:var(--green);font-weight:700}.vip{background:#fff1c2;color:#8b6500}
+.progress{height:10px;background:#e7eeeb;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,#08a06c,#75d74b);border-radius:99px}
+.reward{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #edf1ef}.reward:last-child{border:0}.reward .ico{font-size:30px;width:44px;text-align:center}
+.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);background:#fff;border-top:1px solid #e2ebe7;display:grid;grid-template-columns:repeat(4,1fr);padding:8px 4px env(safe-area-inset-bottom);z-index:5}.nav{background:none;color:#73827e;padding:7px 2px;font-size:11px}.nav b{display:block;font-size:21px}.nav.active{color:var(--green)}
+.toast{position:fixed;left:50%;bottom:88px;transform:translateX(-50%);background:#153d35;color:#fff;padding:12px 16px;border-radius:12px;display:none;z-index:10;font-size:13px;max-width:90%}
+.notice{background:#eef8f3;border-left:4px solid var(--green);padding:11px;border-radius:10px;font-size:12px;margin:10px 0}
+.danger{color:var(--red)} .reward-ready{border:2px solid #f2bd18;background:#fffdf2}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand"><div class="logo">💵</div><div><h1>LOYALTY TARIK TUNAI</h1><div class="sub">Tarik Tunai & Dapatkan Hadiahnya!</div></div></div>
+</header>
+
+<main id="dashboard" class="page">
+  <section class="hero">
+    <div class="hero-top"><div><div class="hero-title">Catat Tarik Tunai</div><p>Minimal Rp50.000 = 1 poin loyalty</p></div><div class="hero-icon">🏧</div></div>
+    <button class="primary" onclick="openAdd()">＋ TARIK TUNAI</button>
+  </section>
+  <div class="grid">
+    <div class="stat"><small>👥 Total Pelanggan</small><b id="statCustomers">0</b></div>
+    <div class="stat"><small>💵 Total Transaksi</small><b id="statTx">0</b></div>
+    <div class="stat"><small>👑 Pelanggan VIP</small><b id="statVip">0</b></div>
+    <div class="stat"><small>🎁 Reward Diklaim</small><b id="statRewards">0</b></div>
+  </div>
+  <div class="card">
+    <b>🎁 Level Reward</b>
+    <div class="tabs" id="levelTabs"></div>
+    <div class="muted">Setiap reward level diklaim → poin level reset ke 0 dan target naik.</div>
+  </div>
+  <div class="card">
+    <b>📌 Aturan</b>
+    <div class="notice">Tarik tunai di bawah <b>Rp50.000</b> tidak dihitung sebagai poin.</div>
+    <div class="muted">Setelah menyelesaikan 100×, pelanggan menjadi <b>VIP permanen</b>.</div>
+  </div>
+</main>
+
+<main id="customers" class="page hidden">
+  <div class="card"><div class="row"><b>👥 Daftar Pelanggan</b><button class="primary" onclick="openAddCustomer()">＋ Tambah</button></div><input id="search" placeholder="Cari nama / nomor HP..." oninput="renderCustomers()"></div>
+  <div class="card" id="customerList"></div>
+</main>
+
+<main id="transactions" class="page hidden">
+  <div class="card"><b>💵 Riwayat Tarik Tunai</b><div id="txList"></div></div>
+</main>
+
+<main id="rewards" class="page hidden">
+  <div class="card">
+    <div class="row"><b>👑 Reward VIP</b><span class="badge vip">VIP PERMANEN</span></div>
+    <p class="muted">Poin VIP terus bertambah. Menukar hadiah hanya mengurangi poin sesuai biaya hadiah; status VIP tidak pernah hilang.</p>
+    <div id="vipRewards"></div>
+  </div>
+</main>
+
+<div id="modal" class="card hidden" style="position:fixed;z-index:20;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92%,460px);max-height:90vh;overflow:auto">
+  <div class="row"><b id="modalTitle">Tambah</b><button onclick="closeModal()">✕</button></div>
+  <div id="modalBody"></div>
+</div>
+<div id="shade" class="hidden" style="position:fixed;inset:0;background:#0008;z-index:19" onclick="closeModal()"></div>
+<div id="toast" class="toast"></div>
+
+<nav class="bottom">
+<button class="nav active" data-page="dashboard" onclick="showPage('dashboard',this)"><b>⌂</b>Dashboard</button>
+<button class="nav" data-page="customers" onclick="showPage('customers',this)"><b>👥</b>Pelanggan</button>
+<button class="nav" data-page="transactions" onclick="showPage('transactions',this)"><b>🧾</b>Transaksi</button>
+<button class="nav" data-page="rewards" onclick="showPage('rewards',this)"><b>👑</b>Reward VIP</button>
+</nav>
+</div>
+
+<script>
+const LEVELS=[
+ {target:10, reward:'Cashback Rp5.000', icon:'💸'},
+ {target:25, reward:'Cashback Rp15.000', icon:'💸'},
+ {target:50, reward:'Minyak 1 Liter', icon:'🛢️'},
+ {target:75, reward:'Minyak 2 Liter', icon:'🛢️🛢️'},
+ {target:100,reward:'Beras 5 Kg + Minyak 2 Liter',icon:'🍚🛢️'}
+];
+const VIP_REWARDS=[
+ {points:10,name:'Cashback Rp5.000',icon:'💸'},
+ {points:25,name:'Cashback Rp15.000',icon:'💸'},
+ {points:50,name:'Minyak 1 Liter',icon:'🛢️'},
+ {points:75,name:'Minyak 2 Liter',icon:'🛢️🛢️'},
+ {points:100,name:'Beras 5 Kg + Minyak 2 Liter',icon:'🍚🛢️'}
+];
+let data=JSON.parse(localStorage.getItem('loyaltyTarikTunai')||'{"customers":[],"transactions":[],"rewards":[] }');
+function save(){localStorage.setItem('loyaltyTarikTunai',JSON.stringify(data));renderAll()}
+function rupiah(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(n)}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function levelFor(c){return c.vip?5:c.level||0}
+function showPage(id,btn){
+ document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');
+ document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');
+ renderAll();
+}
+function openModal(title,body){document.getElementById('modalTitle').textContent=title;document.getElementById('modalBody').innerHTML=body;document.getElementById('modal').classList.remove('hidden');document.getElementById('shade').classList.remove('hidden')}
+function closeModal(){document.getElementById('modal').classList.add('hidden');document.getElementById('shade').classList.add('hidden')}
+function openAddCustomer(){openModal('Tambah Pelanggan',`<label>Nama pelanggan</label><input id="newName" placeholder="Contoh: Budi"><label>Nomor HP (opsional)</label><input id="newPhone" placeholder="08xxxxxxxxxx"><button class="primary" style="width:100%" onclick="addCustomer()">SIMPAN PELANGGAN</button>`)}
+function addCustomer(){let name=document.getElementById('newName').value.trim();if(!name)return toast('Nama pelanggan wajib diisi.');data.customers.push({id:Date.now().toString(),name,phone:document.getElementById('newPhone').value.trim(),points:0,level:0,vip:false,totalTx:0,claimed:0});closeModal();save();toast('Pelanggan berhasil ditambahkan.')}
+function openAdd(){if(!data.customers.length){openAddCustomer();return}openModal('Catat Tarik Tunai',`<label>Pelanggan</label><select id="txCustomer">${data.customers.map(c=>`<option value="${c.id}">${esc(c.name)}${c.vip?' — VIP':''}</option>`).join('')}</select><label>Nominal tarik tunai</label><input id="txAmount" type="number" min="0" step="1000" placeholder="50000"><div class="notice">Minimal Rp50.000 = +1 poin. Di bawah Rp50.000 tidak dihitung.</div><button class="primary" style="width:100%" onclick="addTx()">＋ CATAT TRANSAKSI</button>`)}
+function addTx(){let id=document.getElementById('txCustomer').value,amt=Number(document.getElementById('txAmount').value||0);if(amt<50000)return toast('Minimal tarik tunai Rp50.000 agar mendapat 1 poin.');let c=data.customers.find(x=>x.id===id);if(!c)return;let now=new Date();data.transactions.unshift({id:Date.now().toString(),customerId:id,amount:amt,date:now.toLocaleString('id-ID')});c.totalTx++;c.points++;closeModal();checkReward(c);save();toast('Tarik tunai tercatat: +1 poin.')}
+function checkReward(c){if(c.vip)return;let target=LEVELS[c.level].target;if(c.points>=target){c.rewardReady=true;toast(`🎁 Reward ${LEVELS[c.level].target}× siap diklaim!`)}}
+function claimReward(id){let c=data.customers.find(x=>x.id===id);if(!c||c.vip||!c.rewardReady)return;let lv=LEVELS[c.level];data.rewards.unshift({id:Date.now().toString(),customerId:id,name:lv.reward,date:new Date().toLocaleString('id-ID')});c.claimed++;c.rewardReady=false;c.points=0;if(c.level===4){c.vip=true;c.level=5;c.points=0}else c.level++;save();toast(c.vip?'👑 Selamat! Pelanggan menjadi VIP permanen.':`Reward diklaim. Target berikutnya ${LEVELS[c.level].target}×.`)}
+function renderAll(){renderStats();renderCustomers();renderTx();renderLevels();renderVip()}
+function renderStats(){document.getElementById('statCustomers').textContent=data.customers.length;document.getElementById('statTx').textContent=data.transactions.length;document.getElementById('statVip').textContent=data.customers.filter(c=>c.vip).length;document.getElementById('statRewards').textContent=data.rewards.length}
+function renderLevels(){document.getElementById('levelTabs').innerHTML=LEVELS.map((l,i)=>`<div class="tab">🎁 ${l.target}×<br><small>${l.reward}</small></div>`).join('')}
+function renderCustomers(){let q=(document.getElementById('search')?.value||'').toLowerCase();let arr=data.customers.filter(c=>(c.name+' '+c.phone).toLowerCase().includes(q));document.getElementById('customerList').innerHTML=arr.length?arr.map(c=>{let target=c.vip?null:LEVELS[c.level].target;let pct=c.vip?100:Math.min(100,Math.round(c.points/target*100));let reward=c.rewardReady&&!c.vip?`<div class="card reward-ready"><b>🎁 Reward siap diklaim!</b><p class="muted">${LEVELS[c.level].reward}</p><button class="primary" onclick="claimReward('${c.id}')">KLAIM REWARD</button></div>`:'';return `<div class="customer"><div class="avatar">${c.vip?'👑':'👤'}</div><div style="flex:1"><div class="row"><b>${esc(c.name)}</b><span class="badge ${c.vip?'vip':''}">${c.vip?'VIP PERMANEN':'LEVEL '+(c.level+1)}</span></div><div class="muted">${esc(c.phone||'Tanpa nomor')} · ${c.points} poin</div>${!c.vip?`<div class="progress" style="margin-top:7px"><i style="width:${pct}%"></i></div><div class="muted" style="margin-top:3px">${c.points} / ${target} · ${LEVELS[c.level].reward}</div>`:`<div class="progress" style="margin-top:7px"><i style="width:100%"></i></div><div class="muted">Poin VIP: ${c.points}</div>`}${reward}</div></div>`}).join(''):'<div class="muted">Belum ada pelanggan.</div>'}
+function renderTx(){document.getElementById('txList').innerHTML=data.transactions.length?data.transactions.slice(0,100).map(t=>{let c=data.customers.find(x=>x.id===t.customerId);return `<div class="customer"><div class="avatar">💵</div><div style="flex:1"><b>${esc(c?.name||'Pelanggan')}</b><div class="muted">${t.date} · ${rupiah(t.amount)}</div></div><span class="badge">+1 poin</span></div>`}).join(''):'<div class="muted" style="padding-top:12px">Belum ada transaksi.</div>'}
+function renderVip(){let vip=data.customers.filter(c=>c.vip);document.getElementById('vipRewards').innerHTML=vip.length?vip.map(c=>`<div class="card"><div class="row"><b>👑 ${esc(c.name)}</b><span class="badge vip">${c.points} poin</span></div>${VIP_REWARDS.map(r=>`<div class="reward"><div class="ico">${r.icon}</div><div style="flex:1"><b>${r.name}</b><div class="muted">${r.points} poin</div></div><button ${c.points<r.points?'disabled':''} class="${c.points>=r.points?'primary':''}" onclick="redeem('${c.id}',${r.points},'${esc(r.name)}')">Tukar</button></div>`).join('')}</div>`).join(''):'<div class="muted" style="padding-top:12px">Belum ada pelanggan VIP. Capai 100× untuk menjadi VIP permanen.</div>'}
+function redeem(id,pts,name){let c=data.customers.find(x=>x.id===id);if(!c||!c.vip||c.points<pts)return; if(!confirm(`Tukar ${pts} poin untuk ${name}?`))return;c.points-=pts;data.rewards.unshift({id:Date.now().toString(),customerId:id,name:'VIP: '+name,date:new Date().toLocaleString('id-ID'),points:pts});save();toast(`🎁 ${name} berhasil ditukar.`)}
+function toast(msg){let e=document.getElementById('toast');e.textContent=msg;e.style.display='block';clearTimeout(window.__toast);window.__toast=setTimeout(()=>e.style.display='none',2500)}
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+renderAll();
+</script>
+</body>
+</html>
